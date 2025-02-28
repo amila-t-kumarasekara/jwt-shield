@@ -1,5 +1,5 @@
 {
-  "name": "secure-jwt",
+  "name": "jwt-shield",
   "version": "1.0.0-beta.2",
   "description": "Enhanced JWT implementation with payload encryption",
   "main": "dist/index.js",
@@ -26,7 +26,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amila-t-kumarasekara/secure-jwt.git"
+    "url": "git+https://github.com/amila-t-kumarasekara/jwt-shield.git"
   },
   "license": "MIT",
   "dependencies": {
