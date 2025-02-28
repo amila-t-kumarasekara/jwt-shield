@@ -1,4 +1,4 @@
-name: Secure JWT NPM Release
+name: JWT Shield NPM Release
 
 on:
   push:
