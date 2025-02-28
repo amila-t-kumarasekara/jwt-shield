@@ -1,6 +1,6 @@
 {
   "name": "jwt-shield",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Enhanced JWT implementation with payload encryption",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

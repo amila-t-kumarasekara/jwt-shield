@@ -1,14 +1,31 @@
 import { Router, Request, Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
-import { SecureJWT } from 'jwt-shield';
+import { SecureJWT } from '../../dist/index';
+import crypto from 'crypto';
 
 const router = Router();
 
+// Generate a 32-byte random key
+const generateKey = () => crypto.randomBytes(32);
+
+// Use environment variables or generate secure random keys
+const encryptionKey = 'Ax3X5Gn54BHMDl0YAcI3yJz58mQzD0BMnSblydE2PCE='
+const signingKey = 'Ax3X5Gn54BHMDl0YAcI3yJz58mQzD0BMnSblydE2PCE='
+
+if (!process.env.JWT_ENCRYPTION_KEY) {
+  console.warn(
+    '[WARNING] Using a randomly generated encryption key. This is not recommended for production.\n' +
+    'Tokens will become undecryptable when the server restarts.\n' +
+    'Set JWT_ENCRYPTION_KEY environment variable for persistent tokens.'
+  );
+}
+
 const jwtService = new SecureJWT({
-  encryptionKey: process.env.JWT_SECRET ?? '7rtWJR/Izo9NDZWSWn0pHhcxv9YhjkFBOPMzWZqRYpQ=', //use 32 bytes for signing key
-  signingKey: process.env.SIGNING_KEY ?? 'jwt-key',
+  encryptionKey,
+  signingKey,
   algorithm: 'HS256',
-  encryptionAlgorithm: 'aes-256-gcm'
+  encryptionAlgorithm: 'aes-256-gcm',
+  expiresIn: '1h'
 });
 
 const signInPayload: JwtPayload = {
@@ -25,6 +42,7 @@ const signInPayload: JwtPayload = {
 const verifyPayload = {
   issuer: 'https://example.com',
   audience: 'https://example.com',
+  aud: 'https://example.com',
 }
 
 router.post('/login', async (req: Request, res: Response) => {
@@ -32,7 +50,6 @@ router.post('/login', async (req: Request, res: Response) => {
     const { username, password } = req.body;
     
     if (username === 'admin' && password === 'password') {
-      console.log('signing payload', signInPayload);
       const token = jwtService.sign(signInPayload);
       res.json({ token });
     } else {
@@ -50,6 +67,7 @@ router.post('/verify', async (req: Request, res: Response) => {
     const payload = jwtService.verify(token, verifyPayload);
     res.json({ valid: true, payload });
   } catch (error) {
+    console.error(error);
     res.status(401).json({ valid: false, message: 'Invalid token' });
   }
 });

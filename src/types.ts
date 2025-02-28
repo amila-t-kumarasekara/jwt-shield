@@ -7,10 +7,11 @@ export type SecureEncryptionAlgorithm =
   | 'aes-192-cbc';
 
 export interface SecureJWTOptions extends SignOptions {
-  encryptionKey: string;
+  encryptionKey: string | Buffer;
   signingKey: string;
   algorithm?: Algorithm;
   encryptionAlgorithm?: SecureEncryptionAlgorithm;
+  iterations?: number;
 }
 
 export interface GCMCipher {
@@ -24,6 +25,7 @@ export interface GCMDecipher {
 export interface EncryptionResult {
   encryptedData: string;
   iv: string;
+  keyId: string;
   authTag?: string;
 }
 
