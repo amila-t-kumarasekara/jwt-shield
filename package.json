@@ -1,6 +1,6 @@
 {
   "name": "secure-jwt",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Enhanced JWT implementation with payload encryption",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
