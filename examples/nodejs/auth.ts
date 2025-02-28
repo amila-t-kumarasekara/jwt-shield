@@ -1,16 +1,17 @@
 import { Router, Request, Response } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 import { SecureJWT } from 'jwt-shield';
 
 const router = Router();
 
 const jwtService = new SecureJWT({
-  encryptionKey: process.env.JWT_SECRET ?? 'your-secret-key',
-  signingKey: process.env.SIGNING_KEY ?? 'your-secret-key',
+  encryptionKey: process.env.JWT_SECRET ?? '7rtWJR/Izo9NDZWSWn0pHhcxv9YhjkFBOPMzWZqRYpQ=', //use 32 bytes for signing key
+  signingKey: process.env.SIGNING_KEY ?? 'jwt-key',
   algorithm: 'HS256',
   encryptionAlgorithm: 'aes-256-gcm'
 });
 
-const signInPayload = {
+const signInPayload: JwtPayload = {
   username: 'admin',
   email: 'admin@example.com',
   role: 'admin',
@@ -31,12 +32,14 @@ router.post('/login', async (req: Request, res: Response) => {
     const { username, password } = req.body;
     
     if (username === 'admin' && password === 'password') {
+      console.log('signing payload', signInPayload);
       const token = jwtService.sign(signInPayload);
       res.json({ token });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Error generating token' });
   }
 });

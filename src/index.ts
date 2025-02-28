@@ -67,14 +67,14 @@ export class SecureJWT implements IJWTManager {
         );
       }
 
-      if (payload.iss) {
+      if (!payload.iss) {
         throw new SecureJWTError(
           'iss must be in the payload',
           SecureJWTErrorCode.INVALID_PAYLOAD
         );
       }
 
-      if (payload.aud) {
+      if (!payload.aud) {
         throw new SecureJWTError(
           'aud must be in the payload',
           SecureJWTErrorCode.INVALID_PAYLOAD
@@ -97,8 +97,6 @@ export class SecureJWT implements IJWTManager {
           ...this.options,
           algorithm: this.jwtAlgorithm,
           expiresIn: Number(this.expiresIn),
-          allowInvalidAsymmetricKeyTypes: false,
-          allowInsecureKeySizes: false,
         }
       );
     } catch (error) {
@@ -116,14 +114,14 @@ export class SecureJWT implements IJWTManager {
   public verify(token: string, verifyOptions: jwt.VerifyOptions): JwtPayload {
     try {
 
-      if (verifyOptions.issuer) {
+      if (!verifyOptions.issuer) {
         throw new SecureJWTError(
           'iss must be in the payload',
           SecureJWTErrorCode.INVALID_PAYLOAD
         );
       }
 
-      if (verifyOptions.audience) {
+      if (!verifyOptions.audience) {
         throw new SecureJWTError(
           'aud must be in the payload',
           SecureJWTErrorCode.INVALID_PAYLOAD
