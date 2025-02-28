@@ -1,4 +1,4 @@
-import { SignOptions, Algorithm, VerifyOptions } from 'jsonwebtoken';
+import { SignOptions, Algorithm, VerifyOptions, JwtPayload } from 'jsonwebtoken';
 
 export type SecureEncryptionAlgorithm = 
   | 'aes-256-gcm'
@@ -11,13 +11,6 @@ export interface SecureJWTOptions extends SignOptions {
   signingKey: string;
   algorithm?: Algorithm;
   encryptionAlgorithm?: SecureEncryptionAlgorithm;
-}
-
-export interface JWTPayload {
-  [key: string]: any;
-  exp?: number;
-  iat?: number;
-  jti?: string;
 }
 
 export interface GCMCipher {
@@ -40,6 +33,6 @@ export interface IJWTEncryptor {
 }
 
 export interface IJWTManager {
-  sign(payload: JWTPayload): string;
-  verify(token: string, verifyOptions: VerifyOptions): JWTPayload;
+  sign(payload: JwtPayload): string;
+  verify(token: string, verifyOptions: VerifyOptions): JwtPayload;
 } 

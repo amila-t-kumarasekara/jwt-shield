@@ -1,8 +1,7 @@
 import { randomBytes } from 'crypto';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { 
   SecureJWTOptions, 
-  JWTPayload, 
   IJWTManager,
   SecureEncryptionAlgorithm 
 } from './types';
@@ -59,11 +58,25 @@ export class SecureJWT implements IJWTManager {
     }
   }
 
-  public sign(payload: JWTPayload): string {
+  public sign(payload: JwtPayload): string {
     try {
       if (payload.password) {
         throw new SecureJWTError(
           'Password is not allowed in payload',
+          SecureJWTErrorCode.INVALID_PAYLOAD
+        );
+      }
+
+      if (payload.iss) {
+        throw new SecureJWTError(
+          'iss must be in the payload',
+          SecureJWTErrorCode.INVALID_PAYLOAD
+        );
+      }
+
+      if (payload.aud) {
+        throw new SecureJWTError(
+          'aud must be in the payload',
           SecureJWTErrorCode.INVALID_PAYLOAD
         );
       }
@@ -100,8 +113,23 @@ export class SecureJWT implements IJWTManager {
     }
   }
 
-  public verify(token: string, verifyOptions: jwt.VerifyOptions): JWTPayload {
+  public verify(token: string, verifyOptions: jwt.VerifyOptions): JwtPayload {
     try {
+
+      if (verifyOptions.issuer) {
+        throw new SecureJWTError(
+          'iss must be in the payload',
+          SecureJWTErrorCode.INVALID_PAYLOAD
+        );
+      }
+
+      if (verifyOptions.audience) {
+        throw new SecureJWTError(
+          'aud must be in the payload',
+          SecureJWTErrorCode.INVALID_PAYLOAD
+        );
+      }
+
       const decoded = jwt.verify(token, this.signingKey, verifyOptions) as { data: string; iv: string };
       
       if (!decoded || typeof decoded !== 'object' || !decoded.data || !decoded.iv) {

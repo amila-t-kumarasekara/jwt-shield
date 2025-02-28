@@ -1,4 +1,5 @@
 import { SecureJWT } from './index';
+import { SecureJWTOptions } from './types';
 
 let secureJWTInstance: SecureJWT | null = null;
 
