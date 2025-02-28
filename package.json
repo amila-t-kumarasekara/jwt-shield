@@ -1,0 +1,43 @@
+{
+  "name": "secure-jwt",
+  "version": "0.0.1",
+  "description": "Enhanced JWT implementation with payload encryption",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [
+    "jwt",
+    "encryption",
+    "security",
+    "authentication"
+  ],
+  "author": {
+    "name": "Amila Kumarasekara",
+    "email": "amilathushara15@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Amila kumarasekara",
+      "email": "amilathushara15@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amila-t-kumarasekara/react-thread-runner.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.0",
+    "@types/node": "^18.0.0",
+    "typescript": "^4.9.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0"
+  }
+}
